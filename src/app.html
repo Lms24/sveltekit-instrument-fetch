@@ -5,14 +5,14 @@
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
 		<script>
-			const _fetch = window.fetch;
-			window.fetch = function fetch(input, init) {
-				console.log('instrumented fetch', input, init);
-				return _fetch(input, init).then((response) => {
-					console.log('instrumented fetch', response);
-					return response;
-				});
-			};
+			// This is the actual, original fetch
+			const _originalFetch = window.fetch;
+			// which our fetch proxy will call
+			window.__sentry_fetch_proxy = (...args) => _originalFetch(...args);
+			// the new window.fetch will call our fetch proxy.
+			window.fetch = (...args) => window.__sentry_fetch_proxy(...args);
+			// whatever patching or storing away window.fetch comes after this will still call our proxy somewhere in the path chain.
+			// This is great because now, we can just add instrumentation to our proxy and we're good.
 		</script>
 		%sveltekit.head%
 	</head>

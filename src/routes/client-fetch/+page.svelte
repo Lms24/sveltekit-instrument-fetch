@@ -26,7 +26,7 @@
 	<p>
 		In addition, also a <code>window.fetch</code> should be instrumented:
 	</p>
-	<button on:click={fetchWithWindowFetch}> trigger a window.fetch </button>
+	<button on:click={fetchWithWindowFetch}> 2. trigger a window.fetch </button>
 	<p>
 		Fetch result from <code>window.fetch</code>: {$windowFetchData}
 	</p>
